@@ -20,3 +20,11 @@ delta.txt
 **/*_test_reps*
 *test_reps
 *test_reps.*
+trs/dataset
+trs/explogs
+trs/models
+trs/outputs*
+trs/prefiles
+trs/stats
+trs/null_space_project.pt
+trs/mail_keys.json
