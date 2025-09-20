@@ -52,9 +52,9 @@ no_grad_layers: null
 lr: 1e-6
 token: mask
 
-batch_size: 100
-batch_size_once: 10
-editor_batch_size: 1024
+batch_size: 1
+batch_size_once: 1
+editor_batch_size: 1
 silent: False
 half: true
 

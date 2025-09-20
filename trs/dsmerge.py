@@ -14,6 +14,20 @@ def collect(dir, ds_range):
         return data
     else:
         raise ValueError("Invalid ds_range format.")
+
+def auto_collect(dir):
+    files = os.listdir(dir)
+    if "All.json" in files:
+        return collect(dir, None)
+    else:
+        ds_range = None
+        for file in files:
+            if file.endswith(".json"):
+                ds_range = int(file.split(".")[0].split("q")[1])
+                break
+        if ds_range is None:
+            raise ValueError("No dataset found: dir="+str(dir))
+        return collect(dir, ds_range)
     
 def ds_split(l:int, m:int, n:int):
     k = math.trunc(l/n)
@@ -35,9 +49,8 @@ def release(dir, ds_range, data):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('dir', type=str, help='Directory of dataset')
-    parser.add_argument('--ds_range_src', type=int, required=False, default=None, help='Dataset range (e.g. , 3q10)')
-    parser.add_argument('--ds_range_dst', type=int, required=False, default=None, help='Dataset range (e.g. , 3q10)')
+    parser.add_argument('--dst', type=int, required=False, default=None, help='Dataset range (e.g. , 3q10)')
     args = parser.parse_args()
     
-    data_src = collect(args.dir, args.ds_range_src)
-    release(args.dir, args.ds_range_dst, data_src)
+    data_src = auto_collect(args.dir)
+    release(args.dir, args.dst, data_src)

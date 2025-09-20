@@ -100,7 +100,7 @@ def layer_stats(
         # raw_ds = Dataset.from_file('XXX/XXX/wikipedia-train.arrow')
         # raw_ds = {'train': raw_ds}
         raw_ds = load_dataset(
-            ds_name,
+            "/Data2/tangrui/wikipedia_20200501.en",
             dict(wikitext="wikitext-103-raw-v1", wikipedia="20200501.en")[ds_name]
         )
         if hasattr(model.config, 'n_positions'):

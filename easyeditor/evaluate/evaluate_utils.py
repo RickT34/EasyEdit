@@ -126,7 +126,7 @@ def test_prediction_acc_LLM_judge(model, tok, hparams, prompts, targets, device,
         gen_tokens = model.generate(
             input_ids=prompt_tok['input_ids'],
             attention_mask=prompt_tok['attention_mask'],
-            max_new_tokens=512,
+            max_new_tokens=32,
             stop_strings=[".", "\n", tok.eos_token],
             tokenizer=tok,
             pad_token_id=tok.eos_token_id,
