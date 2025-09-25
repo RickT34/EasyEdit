@@ -16,41 +16,25 @@ def mk_exp_cmd_addon(env: ExpEnv, device):
 cmd_maker = make_cmd_maker(mk_exp_cmd_addon)
 
 
-def env_maker(layer: int, algo: str, data_json: str, model: ModelEnv):
+def env_maker(layer: int, algo: AlgoEnv, dataset: DatasetEnv, model: ModelEnv):
     label = f"layer{layer}"
     return ExpEnv(
-        model.model_name,
-        get_ds_name(data_json),
+        model,
+        dataset,
         algo,
         label,
-        f"All",
         f"outputs_layer",
-        {"data_json": data_json, "model_path": model.model_path, "layer": layer},
+        {"layer": layer},
     )
 
 
 if __name__ == "__main__":
     params1 = list(
         itertools.product(
-            list(range(0, 32, 4))+[31],
-            ["FT-M"],
-            [
-                "dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop1.json",
-                "dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop2.json",
-            ],
+            ModelLLaMA3.get_layers_scattered(4),
+            [EasyEditAlgo('ROME')],
+            DatasetMQCF2hop,
             [ModelLLaMA3],
-        )
-    )
-    params3 = list(
-        itertools.product(
-            list(range(0, 28, 4))+[27],
-            ["FT-M"],
-            [
-                "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop1.json",
-                "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop2.json",
-                "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop3.json",
-            ],
-            ["qwen2.5-7b"],
         )
     )
     envs = list(itertools.starmap(env_maker, params1))

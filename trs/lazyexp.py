@@ -3,7 +3,7 @@ import time
 from multiprocessing import Process
 from pathlib import Path
 import mail
-from env import ExpEnv
+from env import ExpEnv, dumpEnvs
 
 
 def run_cmd(command: list[str], output_file: Path):
@@ -44,6 +44,7 @@ def get_timestamp():
     return time.strftime("%Y%m%d_%H%M%S", time.localtime())
         
 def run_exps(envs: list[ExpEnv], devices:list[int], cmd_maker):
+    dumpEnvs(envs)
     running:dict[int, Process] = {}
     for env in envs:
         d = None
