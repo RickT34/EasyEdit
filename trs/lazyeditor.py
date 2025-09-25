@@ -145,10 +145,9 @@ if __name__ == "__main__":
     args = parse_args()
     editor = get_editor(args)
 
-    ds_name = os.path.basename(args.data_json)
-    ds_name = ds_name[: ds_name.rfind(".")]
+    ds_name = env.get_ds_name(args.data_json)
     expenv = env.ExpEnv(
-        args.model_name, ds_name, args.editing_method, args.label, args.ds_range
+        args.model_name, ds_name, args.editing_method, args.label, args.ds_range, args.outputs_dir
     )
 
     pre_file = expenv.get_prefile_path(args.prefiles_dir)
@@ -158,6 +157,6 @@ if __name__ == "__main__":
     metrics = run_edit(edit_args, editor)
     metrics = post_process(metrics)
 
-    output_file = expenv.get_output_path(args.outputs_dir)
+    output_file = expenv.get_output_path()
 
     json.dump(metrics, open(output_file, "w"), indent=4)

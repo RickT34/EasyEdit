@@ -21,17 +21,15 @@ class LazyCleaner:
     def __init__(
         self,
         expenv: ExpEnv,
-        outputs_dir: str,
         use_cache: bool = True,
         dataset_dir: str = DATASET_DIR,
         judge_func=None,
     ):
         self.expenv = expenv
-        self.outputs_dir = outputs_dir
         self.dataset_dir = dataset_dir
         self.judge_func = judge_func or judge_isin
 
-        cache_file = expenv.get_output_path(outputs_dir).with_suffix(".cleaned.json")
+        cache_file = expenv.get_output_path().with_suffix(".cleaned.json")
         if use_cache and cache_file.exists():
             self.cleaned_data = json.load(open(cache_file))
         else:
@@ -53,7 +51,7 @@ class LazyCleaner:
         return self._rawdata
 
     def collect_data(self):
-        output_file = self.expenv.get_output_path(self.outputs_dir)
+        output_file = self.expenv.get_output_path()
         data = dsmerge.auto_collect(output_file.parent)
         return data
 

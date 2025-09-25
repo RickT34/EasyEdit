@@ -3,9 +3,13 @@ import time
 from multiprocessing import Process
 from pathlib import Path
 import mail
+from env import ExpEnv
 
 
 def run_cmd(command: list[str], output_file: Path):
+    # print("Running: ", " ".join(command))
+    # print("Output: ", output_file)
+    # return
     """运行单个实验并将输出重定向到文件"""
     try:
         # 输出文件路径处理
@@ -31,43 +35,34 @@ def run_cmd(command: list[str], output_file: Path):
             msg = f"    实验完成: 耗时 {duration:.2f} 秒. 状态码: {process.returncode}"
             print(msg)
             f.write(f"\n\n=== {msg} ===\n")
+            f.write(f"实验命令: {' '.join(command)}\n")
 
     except Exception as e:
         print(f"实验错误: {command} : {e}")
 
-
-def run_cmds(cmd_output_pairs: list[tuple[list[str], Path]]):
-    print("开始运行实验组...")
-    processes = []
-    for command, output_file in cmd_output_pairs:
-        p = Process(target=run_cmd, args=(command, output_file))
-        p.start()
-        processes.append(p)
-    # 等待所有进程完成
-    for p in processes:
-        p.join()
-    print("实验组运行完成.")
-
 def get_timestamp():
     return time.strftime("%Y%m%d_%H%M%S", time.localtime())
-
-def run_exp(log_dir:str, algo: str, label: str, devices:list[int], cmd_maker):
+        
+def run_exps(envs: list[ExpEnv], devices:list[int], cmd_maker):
+    running:dict[int, Process] = {}
+    for env in envs:
+        d = None
+        while d is None:
+            for i in devices:
+                if i not in running or not running[i].is_alive():
+                    d = i
+                    break
+            else:
+                time.sleep(10)
+        cmd = cmd_maker(env, d)
+        logdir = env.get_output_path().parent
+        log_file = logdir / f"exp_{get_timestamp()}.log"
+        p = Process(target=run_cmd, args=(cmd, log_file))
+        p.start()
+        running[d]=p
+    for p in running.values():
+        p.join()
     try:
-        logdir = Path(log_dir) / label / algo
-        logdir.mkdir(parents=True, exist_ok=True)
-        timestamp = get_timestamp()
-        cmd_out = []
-        for i, device in enumerate(devices):
-            cmd_out.append(
-                (
-                    cmd_maker(i),
-                    logdir / f"exp_{timestamp}_{i+1}.log",
-                )
-            )
-        run_cmds(cmd_out)
-        try:
-            mail.send_default("ICT-v2", f"Exp Done: {algo} {label}")
-        except:
-            print("Failed to send email.")
-    except Exception as e:
-        print(f"Exp Error: {e}")
+        mail.send_default("ICT-v2", f"Exp Done: {envs}")
+    except:
+        print("Failed to send email.")

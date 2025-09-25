@@ -1,44 +1,57 @@
+import itertools
 import lazyexp
+from env import *
+from utils import make_cmd_maker
 
-MODEL_PATH = "models/LLama-3-8B-Instruct"
-MODEL_NAME = "llama3-8b"
-DEVICE_FREE = [2]
-ALGOs = ["FT-M"]
-LOG_DIR = "explogs/nhop_layers"
+DEVICE_FREE = [7]
 
 
-def mk_exp_cmd(algo: str, data_json: str, label: str, device: int, ds_range: str, layer:int):
+def mk_exp_cmd_addon(env: ExpEnv, device):
     return [
-        "./lazyeditor.py",
-        "--editing_method",
-        algo,
-        "--model_name",
-        MODEL_NAME,
-        "--device",
-        str(device),
-        "--ds_range",
-        ds_range,
-        "--label",
-        label,
-        "--model_path",
-        MODEL_PATH,
-        "--outputs_dir",
-        "outputs_layer",
-        "--data_json",
-        data_json,
         "--rewrite_hparams",
-        f"dict(layers=[{layer}])"
+        f"dict(layers=[{env.tags['layer']}])",
     ]
 
 
-if __name__ == "__main__":
-    for algo in ALGOs:
-        for n in [1, 2, 3]:
-            data_json = f"dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop{n}.json"
-            layers = list(range(0, 32, 4)) + [31]
-            for l in layers:
-                label = f"layer{l}"
-                def cmd_maker(i):
-                    return mk_exp_cmd(algo, data_json, label, DEVICE_FREE[i], f"{i+1}q{len(DEVICE_FREE)}", l)
-                lazyexp.run_exp(LOG_DIR, algo, label, DEVICE_FREE, cmd_maker)
+cmd_maker = make_cmd_maker(mk_exp_cmd_addon)
 
+
+def env_maker(layer: int, algo: str, data_json: str, model: ModelEnv):
+    label = f"layer{layer}"
+    return ExpEnv(
+        model.model_name,
+        get_ds_name(data_json),
+        algo,
+        label,
+        f"All",
+        f"outputs_layer",
+        {"data_json": data_json, "model_path": model.model_path, "layer": layer},
+    )
+
+
+if __name__ == "__main__":
+    params1 = list(
+        itertools.product(
+            list(range(0, 32, 4))+[31],
+            ["FT-M"],
+            [
+                "dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop1.json",
+                "dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop2.json",
+            ],
+            [ModelLLaMA3],
+        )
+    )
+    params3 = list(
+        itertools.product(
+            list(range(0, 28, 4))+[27],
+            ["FT-M"],
+            [
+                "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop1.json",
+                "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop2.json",
+                "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop3.json",
+            ],
+            ["qwen2.5-7b"],
+        )
+    )
+    envs = list(itertools.starmap(env_maker, params1))
+    lazyexp.run_exps(envs, DEVICE_FREE, cmd_maker)
