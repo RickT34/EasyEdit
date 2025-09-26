@@ -17,9 +17,9 @@ def ds_split(l: int, m: int, n: int):
     return k * (m - 1), l if m == n else k * m
 
 
-def get_editor_args(args, pre_file):
-    data_path = args.data_json
-    ds_range = args.ds_range
+def get_editor_args(dataset: env.DatasetEnv, pre_file):
+    data_path = dataset.path
+    ds_range = dataset.range
     r_subject = []
     r_prompt = []
     r_target_new = []
@@ -60,55 +60,37 @@ def get_editor_args(args, pre_file):
     }
 
 
-def parse_args():
+def parse_env():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--editing_method", required=True, type=str)
-    parser.add_argument("--model_path", required=False, default=None, type=str)
-    parser.add_argument("--model_name", required=True, type=str)
+    parser.add_argument("--envfile", required=True, type=str)
     parser.add_argument("--device", default=0, type=int)
-    parser.add_argument("--label", required=True, type=str)
-    parser.add_argument("--data_json", required=True, type=str)
-    parser.add_argument("--hparams_path", required=False, type=str, default=None)
-    parser.add_argument("--ds_range", required=False, default="All", type=str)
-    parser.add_argument("--rewrite_hparams", required=False, default=None, type=str)
-    parser.add_argument("--outputs_dir", required=False, default="outputs", type=str)
     parser.add_argument("--prefiles_dir", required=False, default="prefiles", type=str)
     args = parser.parse_args()
-    if args.ds_range == '1q1':
-        args.ds_range = 'All'
-    return args
+    expenv = env.loadEnv(args.envfile)
+    expenv.tags.update(args.__dict__)
+    return expenv
 
 
-def get_editor(args):
+def get_editor(expenv: env.ExpEnv):
     editing_hparams = None
-    algo = args.editing_method
-    if args.editing_method in ("FT-L", "FT-M"):
-        algo = "FT"
+    algo = expenv.algo.name
     for s in ("HyperParams", "Hparams"):
         try:
-            editing_hparams = easyeditor.__getattribute__(algo + s)  # type: ignore
+            editing_hparams = getattr(easyeditor, algo + s)
         except AttributeError:
             pass
     if editing_hparams is None:
-        raise ValueError(f"Editing method {args.editing_method} not found.")
-    if args.hparams_path is None:
-        args.hparams_path = os.path.join("../hparams", algo, args.model_name)
-    hparams = editing_hparams.from_hparams(args.hparams_path)
+        raise ValueError(f"Editing method {algo} not found.")
+    hparams = editing_hparams.from_hparams(
+        os.path.join(expenv.algo.hparams_dir, expenv.model.name)
+    )
 
-    if args.editing_method == "FT-L":
-        hparams.objective_optimization = "prompt_last"
-    elif args.editing_method == "FT-M":
-        hparams.objective_optimization = "target_new"
-
-    hparams.device = args.device
-    if args.model_path:
-        hparams.model_name = args.model_path
-        hparams.tokenizer_name = args.model_path
+    hparams.device = expenv.tags["device"]
+    hparams.model_name = expenv.model.path
+    hparams.tokenizer_name = expenv.model.path
     hparams.evaluation_type = "generate-text"
-    if args.rewrite_hparams:
-        d = eval(args.rewrite_hparams)
-        for k, v in d.items():
-            hparams.__setattr__(k, v)
+    for k, v in expenv.algo.hparams_rewrite.items():
+        hparams.__setattr__(k, v)
     editor = BaseEditor.from_hparams(hparams)
     return editor
 
@@ -126,14 +108,11 @@ def post_process(metrics):
 
     def metric_process(req):
         return {
-            "pre": (
-                req["pre"]["rewrite_gen_content"][0],
-                req["pre"]["portability"]["tests_acc"],
-            ),
-            "post": (
-                req["post"]["rewrite_gen_content"][0],
-                req["post"]["portability"]["tests_acc"],
-            ),
+            t: (
+                req[t]["rewrite_gen_content"][0],
+                req[t]["portability"]["tests_acc"],
+            )
+            for t in ("pre", "post")
         }
 
     metrics = list(map(metric_process, metrics))
@@ -141,18 +120,14 @@ def post_process(metrics):
     return metrics
 
 
-if __name__ == "__main__":
-    args = parse_args()
-    editor = get_editor(args)
+def main():
+    expenv = parse_env()
 
-    ds_name = env.get_ds_name(args.data_json)
-    expenv = env.ExpEnv(
-        args.model_name, ds_name, args.editing_method, args.label, args.ds_range, args.outputs_dir
-    )
+    editor = get_editor(expenv)
 
-    pre_file = expenv.get_prefile_path(args.prefiles_dir)
+    pre_file = expenv.get_prefile_path(expenv.tags["prefiles_dir"])
 
-    edit_args = get_editor_args(args, pre_file)
+    edit_args = get_editor_args(expenv.dataset, pre_file)
 
     metrics = run_edit(edit_args, editor)
     metrics = post_process(metrics)
@@ -160,3 +135,6 @@ if __name__ == "__main__":
     output_file = expenv.get_output_path()
 
     json.dump(metrics, open(output_file, "w"), indent=4)
+
+if __name__ == "__main__":
+    main()

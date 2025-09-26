@@ -44,9 +44,12 @@ def get_timestamp():
     return time.strftime("%Y%m%d_%H%M%S", time.localtime())
         
 def run_exps(envs: list[ExpEnv], devices:list[int], cmd_maker):
-    dumpEnvs(envs)
+    env_files = dumpEnvs(envs)
     running:dict[int, Process] = {}
-    for env in envs:
+    for env, env_file in zip(envs, env_files):
+        if env.get_output_path().exists():
+            print(f"Skipping {env.label} because output file exists.")
+            continue
         d = None
         while d is None:
             for i in devices:
@@ -55,7 +58,7 @@ def run_exps(envs: list[ExpEnv], devices:list[int], cmd_maker):
                     break
             else:
                 time.sleep(10)
-        cmd = cmd_maker(env, d)
+        cmd = cmd_maker(env, env_file, d)
         logdir = env.get_output_path().parent
         log_file = logdir / f"exp_{get_timestamp()}.log"
         p = Process(target=run_cmd, args=(cmd, log_file))

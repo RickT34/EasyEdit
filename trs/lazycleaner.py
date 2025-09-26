@@ -3,11 +3,8 @@ import json
 from env import *
 import itertools
 import dsmerge
-from pathlib import Path
 import numpy as np
 from rich import print
-
-DATASET_DIR = "dataset"
 
 
 def judge_isin(llm_ans: str, answers: list[str]):
@@ -22,11 +19,9 @@ class LazyCleaner:
         self,
         expenv: ExpEnv,
         use_cache: bool = True,
-        dataset_dir: str = DATASET_DIR,
         judge_func=None,
     ):
         self.expenv = expenv
-        self.dataset_dir = dataset_dir
         self.judge_func = judge_func or judge_isin
 
         cache_file = expenv.get_output_path().with_suffix(".cleaned.json")
@@ -40,7 +35,7 @@ class LazyCleaner:
     def dataset(self):
         if not hasattr(self, "_dataset"):
             self._dataset = json.load(
-                open(f"{self.dataset_dir}/{self.expenv.ds_name}.json")
+                open(self.expenv.dataset.path)
             )
         return self._dataset
 
