@@ -1,0 +1,28 @@
+{
+    "model": {
+        "name": "qwen2.5-7b",
+        "path": "models/Qwen2.5-7B-Instruct",
+        "layers": 28,
+        "tags": {}
+    },
+    "dataset": {
+        "path": "dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop1.json",
+        "range": "All",
+        "tags": {
+            "loc": 0
+        }
+    },
+    "algo": {
+        "name": "ROME",
+        "hparams_dir": "../hparams/ROME",
+        "hparams_rewrite": {
+            "layers": [
+                0
+            ]
+        },
+        "tags": {}
+    },
+    "label": "layer0",
+    "outputs_dir": "outputs_layer",
+    "tags": {}
+}

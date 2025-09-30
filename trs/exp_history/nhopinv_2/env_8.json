@@ -1,0 +1,26 @@
+{
+    "model": {
+        "name": "qwen2.5-7b",
+        "path": "models/Qwen2.5-7B-Instruct",
+        "layers": 28,
+        "tags": {}
+    },
+    "dataset": {
+        "path": "dataset/mq_cf_sample800_2hopinv/mq_cf_sample800_2hopinv2.json",
+        "range": "All",
+        "tags": {
+            "loc": 1
+        }
+    },
+    "algo": {
+        "name": "FT",
+        "hparams_dir": "../hparams/FT",
+        "hparams_rewrite": {
+            "objective_optimization": "target_new"
+        },
+        "tags": {}
+    },
+    "label": "nhopinv",
+    "outputs_dir": "outputs/nhopinv",
+    "tags": {}
+}

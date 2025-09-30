@@ -7,9 +7,6 @@ from env import ExpEnv, dumpEnvs
 
 
 def run_cmd(command: list[str], output_file: Path):
-    # print("Running: ", " ".join(command))
-    # print("Output: ", output_file)
-    # return
     """运行单个实验并将输出重定向到文件"""
     try:
         # 输出文件路径处理
@@ -43,8 +40,8 @@ def run_cmd(command: list[str], output_file: Path):
 def get_timestamp():
     return time.strftime("%Y%m%d_%H%M%S", time.localtime())
         
-def run_exps(envs: list[ExpEnv], devices:list[int], cmd_maker):
-    env_files = dumpEnvs(envs)
+def run_exps(name:str, envs: list[ExpEnv], devices:list[int], cmd_maker):
+    env_files = dumpEnvs(envs, name)
     running:dict[int, Process] = {}
     for env, env_file in zip(envs, env_files):
         if env.get_output_path().exists():

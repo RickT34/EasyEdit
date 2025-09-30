@@ -1,1 +1,0 @@
-./lazyeditor.py --editing_method ROME --model_name llama3-8b --device 7 --ds_range All --label momtest --model_path models/LLama-3-8B-Instruct --outputs_dir outputs_test --data_json dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop1.json

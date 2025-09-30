@@ -84,7 +84,7 @@ def get_editor(expenv: env.ExpEnv):
     hparams = editing_hparams.from_hparams(
         os.path.join(expenv.algo.hparams_dir, expenv.model.name)
     )
-
+    hparams.stats_dir = './data/stats'
     hparams.device = expenv.tags["device"]
     hparams.model_name = expenv.model.path
     hparams.tokenizer_name = expenv.model.path

@@ -1,0 +1,24 @@
+{
+    "model": {
+        "name": "llama3-8b",
+        "path": "models/LLama-3-8B-Instruct",
+        "layers": 32,
+        "tags": {}
+    },
+    "dataset": {
+        "path": "dataset/mq_cf_sample800_2hopinv/mq_cf_sample800_2hopinv1.json",
+        "range": "All",
+        "tags": {
+            "loc": 0
+        }
+    },
+    "algo": {
+        "name": "AlphaEdit",
+        "hparams_dir": "../hparams/AlphaEdit",
+        "hparams_rewrite": {},
+        "tags": {}
+    },
+    "label": "nhopinv",
+    "outputs_dir": "outputs/nhopinv",
+    "tags": {}
+}

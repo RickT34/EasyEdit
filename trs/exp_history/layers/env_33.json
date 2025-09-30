@@ -1,0 +1,28 @@
+{
+    "model": {
+        "name": "llama3-8b",
+        "path": "models/LLama-3-8B-Instruct",
+        "layers": 32,
+        "tags": {}
+    },
+    "dataset": {
+        "path": "dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop1.json",
+        "range": "All",
+        "tags": {
+            "loc": 0
+        }
+    },
+    "algo": {
+        "name": "ROME",
+        "hparams_dir": "../hparams/ROME",
+        "hparams_rewrite": {
+            "layers": [
+                12
+            ]
+        },
+        "tags": {}
+    },
+    "label": "layer12",
+    "outputs_dir": "outputs_layer",
+    "tags": {}
+}

@@ -45,6 +45,10 @@ DatasetsMQCF2hop800 = list(
     DatasetEnv(f"dataset/mq_cf_sample800_2hop/mq_cf_sample800_2hop{i+1}.json", tags={"loc": i})
     for i in range(2)
 )
+DatasetsMQCF2hop800inv = list(
+    DatasetEnv(f"dataset/mq_cf_sample800_2hopinv/mq_cf_sample800_2hopinv{i+1}.json", tags={"loc": i})
+    for i in range(2)
+)
 DatasetsMQCF2hop200 = list(
     DatasetEnv(f"dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop{i+1}.json", tags={"loc": i})
     for i in range(2)
@@ -63,11 +67,16 @@ class AlgoEnv:
     tags: dict = dataclasses.field(default_factory=dict)
 
 
-def EasyEditAlgo(name):
+def EasyEditAlgo(name:str):
     hparams_rewrite = {
         "FT-M": {"objective_optimization": "target_new"},
         "FT-L": {"objective_optimization": "prompt_last"},
+        "ROME": {"mom2_adjustment": True},
     }.get(name, {})
+    name = {
+        "FT-M": "FT",
+        "FT-L": "FT",
+    }.get(name, name)
 
     return AlgoEnv(name, f"../hparams/{name}", hparams_rewrite)
 
@@ -120,16 +129,8 @@ def dumpEnv(env: ExpEnv, path):
         json.dump(dataclasses.asdict(env), f, indent=4)
 
 
-def dumpEnvs(envs: list[ExpEnv]):
-    os.makedirs(ExpHistoryDir, exist_ok=True)
-    num = 1
-
-    def _get_name():
-        return ExpHistoryDir / f"exp_{num}"
-
-    while _get_name().exists():
-        num += 1
-    dir = _get_name()
+def dumpEnvs(envs: list[ExpEnv], name:str):
+    dir = ExpHistoryDir / name
     os.makedirs(dir)
     paths = []
     for i, e in enumerate(envs):
@@ -144,6 +145,13 @@ def loadEnv(path):
         d = json.load(f)
     return ExpEnv(**d)
 
+def loadEnvs(name:str):
+    dir = ExpHistoryDir / name
+    files = [dir / f for f in os.listdir(dir) if f.endswith(".json")]
+    files.sort()
+    envs = list(map(loadEnv, files))
+    return envs
+    
 
 def envCopy(env, cls):
     return cls(**dataclasses.asdict(env))

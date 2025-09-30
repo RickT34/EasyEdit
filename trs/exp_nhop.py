@@ -1,35 +1,24 @@
+import itertools
 import lazyexp
-from env import ExpEnv, get_ds_name
+from env import *
 from utils import make_cmd_maker
 
-OUTPUTS_DIR = "outputs"
-
-MODEL_PATH = "models/Qwen2.5-7B-Instruct"
-MODEL_NAME = "qwen2.5-7b"
-DEVICE_FREE = [1,2,3,6]
-ALGOs = ["AlphaEdit", "FT-M", "LoRA", "MEMIT", "ROME", "UltraEdit", "QLoRA"]
-# ALGOs = ["FT-M"]
+DEVICE_FREE = [3, 5, 6, 7]
 
 cmd_maker = make_cmd_maker()
 
 
-if __name__ == "__main__":
-    envs = []
-    for algo in ALGOs:
-        for n in [1, 2]:
-            data_json = (
-                f"/Data2/tangrui/EasyEdit/trs/dataset/mq_cf_sample800_2hop{n}.json"
-            )
-            label = f"mq_cf_sample800_2hop{n}"
+def env_maker(algo: AlgoEnv, dataset: DatasetEnv, model: ModelEnv):
+    return ExpEnv(model, dataset, algo, 'nhopinv', f"outputs/nhop")
 
-            env = ExpEnv(
-                MODEL_NAME,
-                get_ds_name(data_json),
-                algo,
-                label,
-                f"All",
-                OUTPUTS_DIR,
-                {"model_path": MODEL_PATH, "data_json": data_json}
-            )
-            envs.append(env)
-    lazyexp.run_exps(envs, DEVICE_FREE, cmd_maker)
+
+if __name__ == "__main__":
+    params1 = list(
+        itertools.product(
+            [EasyEditAlgo(x) for x in ["AlphaEdit", "FT-M", "LoRA", "MEMIT", "QLoRA", "ROME", "UltraEdit"]],
+            DatasetsMQCF2hop800inv,
+            [ModelLLaMA3, ModelQwen2p5],
+        )
+    )
+    envs = list(itertools.starmap(env_maker, params1))
+    lazyexp.run_exps('nhopinv_2',envs, DEVICE_FREE, cmd_maker)
