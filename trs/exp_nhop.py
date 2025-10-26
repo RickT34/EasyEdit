@@ -9,16 +9,16 @@ cmd_maker = make_cmd_maker()
 
 
 def env_maker(algo: AlgoEnv, dataset: DatasetEnv, model: ModelEnv):
-    return ExpEnv(model, dataset, algo, 'nhopinv', f"outputs/nhop")
+    return ExpEnv(model, dataset, algo, 'nhop', f"outputs/nhop")
 
 
 if __name__ == "__main__":
     params1 = list(
         itertools.product(
             [EasyEditAlgo(x) for x in ["AlphaEdit", "FT-M", "LoRA", "MEMIT", "QLoRA", "ROME", "UltraEdit"]],
-            DatasetsMQCF2hop800inv,
+            DatasetsMQCF2hop800,
             [ModelLLaMA3, ModelQwen2p5],
         )
     )
     envs = list(itertools.starmap(env_maker, params1))
-    lazyexp.run_exps('nhopinv_2',envs, DEVICE_FREE, cmd_maker)
+    lazyexp.run_exps('nhop',envs, DEVICE_FREE, cmd_maker)

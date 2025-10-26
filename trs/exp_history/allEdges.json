@@ -1,0 +1,194 @@
+[
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "1q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "2q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "3q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "4q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "1q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "2q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "3q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_all_edges.json",
+            "range": "4q4",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "allEdges",
+        "outputs_dir": "outptus/allEdges",
+        "tags": {}
+    }
+]

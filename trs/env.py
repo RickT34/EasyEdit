@@ -3,6 +3,7 @@ import dataclasses
 import os
 import json
 import itertools
+import math
 
 
 @dataclasses.dataclass
@@ -12,16 +13,17 @@ class ModelEnv:
     layers: int
     tags: dict = dataclasses.field(default_factory=dict)
 
-    def get_layers_scattered(self, step: int):
-        return itertools.chain(
-            range(0, self.layers, step),
-            [self.layers - 1] if self.layers % step != 1 else [],
-        )
+    def get_layers_scattered(self, step: int, count:int = 1):
+        i = 0
+        while i < self.layers:
+            yield list(range(i, min(self.layers, i + count)))
+            i += step
+        if i - step + count < self.layers:
+            yield [self.layers-1]
 
 
-ModelLLaMA3 = ModelEnv("llama3-8b", "models/LLama-3-8B-Instruct", 32)
-ModelQwen2p5 = ModelEnv("qwen2.5-7b", "models/Qwen2.5-7B-Instruct", 28)
-
+ModelLLaMA3 = ModelEnv("llama3-8b", "data/models/LLama-3-8B-Instruct", 32)
+ModelQwen2p5 = ModelEnv("qwen2.5-7b", "data/models/Qwen2.5-7B-Instruct", 28)
 
 @dataclasses.dataclass
 class DatasetEnv:
@@ -39,25 +41,34 @@ class DatasetEnv:
         self.name = self.get_ds_name(self.path)
         if self.range == "1q1":
             self.range = "All"
+            
+    @staticmethod
+    def ds_split(l:int, m:int, n:int):
+        k = math.trunc(l/n)
+        return k*(m-1), l if m==n else k*m
+    
+    def read(self):
+        return json.load(open(self.path, "r"))
 
 
 DatasetsMQCF2hop800 = list(
-    DatasetEnv(f"dataset/mq_cf_sample800_2hop/mq_cf_sample800_2hop{i+1}.json", tags={"loc": i})
+    DatasetEnv(f"data/dataset/mq_cf_sample800_2hop/mq_cf_sample800_2hop{i+1}.json", tags={"loc": i})
     for i in range(2)
 )
 DatasetsMQCF2hop800inv = list(
-    DatasetEnv(f"dataset/mq_cf_sample800_2hopinv/mq_cf_sample800_2hopinv{i+1}.json", tags={"loc": i})
+    DatasetEnv(f"data/dataset/mq_cf_sample800_2hopinv/mq_cf_sample800_2hopinv{i+1}.json", tags={"loc": i})
     for i in range(2)
 )
 DatasetsMQCF2hop200 = list(
-    DatasetEnv(f"dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop{i+1}.json", tags={"loc": i})
+    DatasetEnv(f"data/dataset/mq_cf_sample200_2hop/mq_cf_sample200_2hop{i+1}.json", tags={"loc": i})
     for i in range(2)
 )
 DatasetsMQCF3hop100 = list(
-    DatasetEnv(f"dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop{i+1}.json", tags={"loc": i})
+    DatasetEnv(f"data/dataset/mq_cf_sample100_3hop/mq_cf_sample100_3hop{i+1}.json", tags={"loc": i})
     for i in range(3)
 )
-
+DatasetMQCF2chop200 = DatasetEnv("data/dataset/mq_cf_sample200_2chop_2.json")
+DatasetMQCFAllEdges = DatasetEnv("data/dataset/mq_cf_all_edges.json")
 
 @dataclasses.dataclass
 class AlgoEnv:
@@ -119,37 +130,42 @@ class ExpEnv:
         outputdir.mkdir(parents=True, exist_ok=True)
         output_file = outputdir / self.filename
         return output_file
+    
+    def to_json(self):
+        return json.dumps(dataclasses.asdict(self))
+
+    @staticmethod
+    def from_json(json_str):
+        d = json.loads(json_str)
+        return ExpEnv(**d)
+    
+    def dump(self, path):
+        with open(path, "w") as f:
+            json.dump(dataclasses.asdict(self), f, indent=4)
+
+    @staticmethod
+    def load(path):
+        with open(path, "r") as f:
+            d = json.load(f)
+        return ExpEnv(**d)
 
 
 ExpHistoryDir = Path("exp_history")
 
-
-def dumpEnv(env: ExpEnv, path):
-    with open(path, "w") as f:
-        json.dump(dataclasses.asdict(env), f, indent=4)
-
-
 def dumpEnvs(envs: list[ExpEnv], name:str):
-    dir = ExpHistoryDir / name
-    os.makedirs(dir)
-    paths = []
-    for i, e in enumerate(envs):
-        path = dir / f"env_{i+1}.json"
-        paths.append(path)
-        dumpEnv(e, path)
-    return paths
-
-
-def loadEnv(path):
-    with open(path, "r") as f:
-        d = json.load(f)
-    return ExpEnv(**d)
+    path = ExpHistoryDir / f"{name}.json"
+    #assert not path.exists(), f"exp {name} already exists"
+    l = []
+    for e in envs:
+        l.append(dataclasses.asdict(e))
+    return json.dump(l, open(path, "w"), indent=4)
 
 def loadEnvs(name:str):
-    dir = ExpHistoryDir / name
-    files = [dir / f for f in os.listdir(dir) if f.endswith(".json")]
-    files.sort()
-    envs = list(map(loadEnv, files))
+    path = ExpHistoryDir / f"{name}.json"
+    l = json.load(open(path, "r"))
+    envs = []
+    for d in l:
+        envs.append(ExpEnv(**d))
     return envs
     
 

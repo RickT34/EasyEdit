@@ -1,0 +1,920 @@
+[
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    0
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer0",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    0
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer0",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    4
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer4",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    4
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer4",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    8
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer8",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    8
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer8",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    12
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer12",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    12
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer12",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    16
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer16",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    16
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer16",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    20
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer20",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    20
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer20",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    24
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer24",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    24
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer24",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    28
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer28",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    28
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer28",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    31
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer31",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "llama3-8b",
+            "path": "data/models/LLama-3-8B-Instruct",
+            "layers": 32,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    31
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer31",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    0
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer0",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    0
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer0",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    4
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer4",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    4
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer4",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    8
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer8",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    8
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer8",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    12
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer12",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    12
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer12",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    16
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer16",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    16
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer16",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    20
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer20",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    20
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer20",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    24
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer24",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    24
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer24",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "ROME",
+            "hparams_dir": "../hparams/ROME",
+            "hparams_rewrite": {
+                "layers": [
+                    27
+                ],
+                "mom2_adjustment": true
+            },
+            "tags": {}
+        },
+        "label": "layer27",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    },
+    {
+        "model": {
+            "name": "qwen2.5-7b",
+            "path": "data/models/Qwen2.5-7B-Instruct",
+            "layers": 28,
+            "tags": {}
+        },
+        "dataset": {
+            "path": "data/dataset/mq_cf_sample200_2chop_2.json",
+            "range": "All",
+            "tags": {}
+        },
+        "algo": {
+            "name": "FT",
+            "hparams_dir": "../hparams/FT",
+            "hparams_rewrite": {
+                "layers": [
+                    27
+                ],
+                "objective_optimization": "target_new"
+            },
+            "tags": {}
+        },
+        "label": "layer27",
+        "outputs_dir": "outputs/layerC",
+        "tags": {}
+    }
+]

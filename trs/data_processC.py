@@ -13,29 +13,31 @@ AXISES_ENV = {
 
 def compute_filter(data: lazycleaner.LazyCleaner):
     return data.metrics_samplewise(
-        lambda *case: all(
-            x > 0 or i == data.expenv.dataset.tags["loc"]
-            for i, x in enumerate(case[3:])
-        )
+        lambda *case: case[0] >0 and case[2]>0
     )
 
 
-def compute_nhop(data: lazycleaner.LazyCleaner):
-    nhop = data.metrics_samplewise(lambda *case: sum(case[:3]) / 3)
+def compute_nhop12(data: lazycleaner.LazyCleaner):
+    nhop = data.metrics_samplewise(lambda *case: sum(case[3:6]) / 3)
     filter = compute_filter(data)
     return nhop[filter[:, 0], 1].mean().item()
 
+def compute_nhop23(data: lazycleaner.LazyCleaner):
+    nhop = data.metrics_samplewise(lambda *case: sum(case[6:9]) / 3)
+    filter = compute_filter(data)
+    return nhop[filter[:, 0], 1].mean().item()
 
 def compute_edit(data: lazycleaner.LazyCleaner):
     edit = data.metrics_samplewise(
-        lambda *case: case[3 + data.expenv.dataset.tags["loc"]]
+        lambda *case: case[1]
     )
     filter = compute_filter(data)
     return edit[filter[:, 0], 1].mean().item()
 
 
 AXISES_VAL = {
-    "Nhop": compute_nhop,
+    "Nhop12": compute_nhop12,
+    "Nhop23": compute_nhop23,
     "Edit": compute_edit,
     "Count": lambda data: compute_filter(data)[:, 0].sum().item(),
 }

@@ -303,6 +303,8 @@ class BaseEditor:
         `locality_inputs`: dict
             for locality
         """
+        if 'only_pre' in kwargs and kwargs['only_pre']:
+            print("Working in only pre mode.")
         eval_metric= kwargs['eval_metric'] if 'eval_metric' in kwargs.keys() else 'exact match'
         if hasattr(self.hparams, 'batch_size'):  # For Singleton Editing, bs=1
             assert self.hparams.batch_size == 1, 'Single Editing: batch_size should be set to 1'
@@ -320,6 +322,8 @@ class BaseEditor:
                 all_metrics.append(metrics)
             if 'pre_file' in kwargs and kwargs['pre_file'] is not None:
                 json.dump(all_metrics, open(kwargs['pre_file'], 'w'), indent=4)
+        if 'only_pre' in kwargs and kwargs['only_pre']:
+            return all_metrics, None, None
 
         def edit_func(request):
             if self.alg_name == 'IKE' or self.alg_name == 'ICE':

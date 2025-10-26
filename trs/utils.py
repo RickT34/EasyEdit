@@ -2,11 +2,11 @@ from env import ExpEnv
 
 
 def make_cmd_maker(cmd_addon_maker=None):
-    def mk_exp_cmd(env: ExpEnv, env_file: str, device):
+    def mk_exp_cmd(env: ExpEnv, device):
         return [
             "./lazyeditor.py",
-            "--envfile",
-            str(env_file),
+            "--envjson",
+            env.to_json(),
             "--device",
             str(device),
         ] + (cmd_addon_maker(env, device) if cmd_addon_maker else [])

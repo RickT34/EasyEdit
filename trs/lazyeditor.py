@@ -17,7 +17,8 @@ def ds_split(l: int, m: int, n: int):
     return k * (m - 1), l if m == n else k * m
 
 
-def get_editor_args(dataset: env.DatasetEnv, pre_file):
+def get_editor_args(expenv: env.ExpEnv, pre_file):
+    dataset = expenv.dataset
     data_path = dataset.path
     ds_range = dataset.range
     r_subject = []
@@ -57,16 +58,21 @@ def get_editor_args(dataset: env.DatasetEnv, pre_file):
         },
         "pre_edit": pre_edit,
         "pre_file": pre_file,
+        "only_pre": expenv.tags["only_pre"],
     }
 
 
 def parse_env():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--envfile", required=True, type=str)
+    parser.add_argument("--envjson", required=True, type=str)
     parser.add_argument("--device", default=0, type=int)
     parser.add_argument("--prefiles_dir", required=False, default="prefiles", type=str)
+    parser.add_argument("--only_pre", action="store_true")
     args = parser.parse_args()
-    expenv = env.loadEnv(args.envfile)
+    try:
+        expenv = env.ExpEnv.from_json(args.envjson)
+    except json.JSONDecodeError:
+        expenv = env.ExpEnv.load(args.envjson)
     expenv.tags.update(args.__dict__)
     return expenv
 
@@ -127,7 +133,7 @@ def main():
 
     pre_file = expenv.get_prefile_path(expenv.tags["prefiles_dir"])
 
-    edit_args = get_editor_args(expenv.dataset, pre_file)
+    edit_args = get_editor_args(expenv, pre_file)
 
     metrics = run_edit(edit_args, editor)
     metrics = post_process(metrics)

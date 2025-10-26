@@ -120,6 +120,6 @@ def compute_u(
             hparams.mom2_dtype,
             hparams=hparams,
         ) @ u.float().unsqueeze(1)
-        u = u.squeeze().half()
+        u = u.squeeze().to(dtype=model.dtype)
 
     return u / u.norm()
