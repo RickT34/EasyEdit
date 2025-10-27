@@ -305,6 +305,8 @@ class BaseEditor:
         """
         if 'only_pre' in kwargs and kwargs['only_pre']:
             print("Working in only pre mode.")
+        if 'trace_weight_change' in kwargs and kwargs['trace_weight_change']:
+            print("Tracing weight change.")
         eval_metric= kwargs['eval_metric'] if 'eval_metric' in kwargs.keys() else 'exact match'
         if hasattr(self.hparams, 'batch_size'):  # For Singleton Editing, bs=1
             assert self.hparams.batch_size == 1, 'Single Editing: batch_size should be set to 1'
@@ -386,6 +388,8 @@ class BaseEditor:
                 LOG.info(f"{idx} editing: {request['prompt']} -> {request['target_new']}  \n\n {all_metrics[idx]}")
 
 
+        weight_changes = []
+
         if sequential_edit:
             for i, request in enumerate(tqdm(requests, total=len(requests))):
                 edited_model, weights_copy, icl_examples = edit_func(request)
@@ -409,9 +413,14 @@ class BaseEditor:
                 elif self.alg_name == 'MELO':
                     self.model = edited_model
                 else:
+                    weight_change = {}
                     with torch.no_grad():
                         for k, v in weights_copy.items():
-                            nethook.get_parameter(self.model, k)[...] = v.to(f"cuda:{self.hparams.device}")
+                            p = nethook.get_parameter(self.model, k)
+                            if 'trace_weight_change' in kwargs and kwargs['trace_weight_change']:
+                                weight_change[k] = (p-v).detach().cpu()
+                            p[...] = v.to(f"cuda:{self.hparams.device}")
+                    weight_changes.append(weight_change)
 
 
         if isinstance(edited_model, LORA):
@@ -419,7 +428,7 @@ class BaseEditor:
         if not hasattr(self.hparams, 'evaluation_type') or self.hparams.evaluation_type != "generate-text":
             summary_metrics(all_metrics)
 
-        return all_metrics, edited_model, weights_copy
+        return all_metrics, edited_model, weights_copy, weight_changes
 
     def normal_edit(
         self,

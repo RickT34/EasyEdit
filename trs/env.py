@@ -69,6 +69,7 @@ DatasetsMQCF3hop100 = list(
 )
 DatasetMQCF2chop200 = DatasetEnv("data/dataset/mq_cf_sample200_2chop_2.json")
 DatasetMQCFAllEdges = DatasetEnv("data/dataset/mq_cf_all_edges.json")
+DatasetCF1000 = DatasetEnv("data/dataset/cf_formatted_k1000.json")
 
 @dataclasses.dataclass
 class AlgoEnv:

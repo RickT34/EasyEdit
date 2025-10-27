@@ -10,6 +10,7 @@ from easyeditor import BaseEditor
 import time
 import math
 import env
+import torch
 
 
 def ds_split(l: int, m: int, n: int):
@@ -49,6 +50,7 @@ def get_editor_args(expenv: env.ExpEnv, pre_file):
     else:
         print(f"No pre edit cache found: {pre_file}")
 
+    passthrough_args = ('only_pre', 'trace_weight_change')
     return {
         "prompts": r_prompt,
         "target_new": r_target_new,
@@ -58,7 +60,7 @@ def get_editor_args(expenv: env.ExpEnv, pre_file):
         },
         "pre_edit": pre_edit,
         "pre_file": pre_file,
-        "only_pre": expenv.tags["only_pre"],
+        **{k: v for k, v in expenv.tags.items() if k in passthrough_args},
     }
 
 
@@ -104,10 +106,10 @@ def get_editor(expenv: env.ExpEnv):
 def run_edit(edit_args, editor):
 
     start_time = time.time()
-    metrics, edited_model, _ = editor.edit(keep_original_weight=True, **edit_args)
+    outputs = editor.edit(keep_original_weight=True, **edit_args)
     end_time = time.time()
     print(f"Time cost: {end_time-start_time:.2f}s")
-    return metrics
+    return outputs
 
 
 def post_process(metrics):
@@ -135,10 +137,12 @@ def main():
 
     edit_args = get_editor_args(expenv, pre_file)
 
-    metrics = run_edit(edit_args, editor)
+    metrics, edited_model, weights_copy, weight_changes = run_edit(edit_args, editor)
     metrics = post_process(metrics)
 
     output_file = expenv.get_output_path()
+    if 'trace_weight_change' in edit_args:
+        torch.save(weight_changes, output_file.parent / "weight_changes.bin")
 
     json.dump(metrics, open(output_file, "w"), indent=4)
 
